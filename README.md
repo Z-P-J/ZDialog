@@ -1,2 +1,2 @@
 # ZDialog
- A simple and expandable dialog library.
+ A simple and customizable dialog library.

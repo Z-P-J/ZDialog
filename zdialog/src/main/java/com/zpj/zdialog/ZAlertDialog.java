@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.zpj.dialoglib.R;
+import com.zpj.zdialog.base.DialogFragment;
 
 /**
  * @author Z-P-J
@@ -25,6 +26,8 @@ public class ZAlertDialog {
 
     IDialog.OnClickListener positiveBtnListener;
     IDialog.OnClickListener negativeBtnListener;
+
+    private DialogFragment.OnAnimatorCreateListener onAnimatorCreateListener;
 
     private ZAlertDialog(Activity activity) {
         this.activity = activity;
@@ -64,11 +67,17 @@ public class ZAlertDialog {
         return this;
     }
 
+    public ZAlertDialog setAnimatorCreateListener(DialogFragment.OnAnimatorCreateListener onAnimatorCreateListener) {
+        this.onAnimatorCreateListener = onAnimatorCreateListener;
+        return this;
+    }
+
     public void show() {
         ZDialog.with(activity)
                 .setContentView(R.layout.layout_dialog_alert)
                 .setWindowBackgroundP(0.2f)
                 .setScreenWidthP(0.9f)
+                .setAnimatorCreateListener(onAnimatorCreateListener)
                 .setOnViewCreateListener(new IDialog.OnViewCreateListener() {
                     @Override
                     public void onViewCreate(final IDialog dialog, View view) {
