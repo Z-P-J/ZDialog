@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.zpj.dialoglib.R;
 import com.zpj.zdialog.utils.KeyboardUtil;
 
 /**
@@ -26,9 +25,9 @@ public class ZEditDialog {
 
     private String hint;
 
-    private String negativBtnStr;
+    private String negativBtnStr = "取消";
 
-    private String positiveBtnStr;
+    private String positiveBtnStr = "确定";
 
     private boolean autoShowKeyboard = true;
 
@@ -132,6 +131,8 @@ public class ZEditDialog {
                                     KeyboardUtil.hideKeyboard(editText);
                                     if (positiveBtnListener != null) {
                                         positiveBtnListener.onClick(dialog, editText.getText().toString().trim());
+                                    } else {
+                                        dialog.dismiss();
                                     }
                                 }
                             }
@@ -142,6 +143,8 @@ public class ZEditDialog {
                                 KeyboardUtil.hideKeyboard(editText);
                                 if (negativeBtnListener != null) {
                                     negativeBtnListener.onClick(dialog);
+                                } else {
+                                    dialog.dismiss();
                                 }
                             }
                         });

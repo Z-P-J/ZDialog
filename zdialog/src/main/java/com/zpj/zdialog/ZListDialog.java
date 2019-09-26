@@ -7,8 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-
-import com.zpj.dialoglib.R;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -36,14 +35,19 @@ public class ZListDialog<T> {
 
     @LayoutRes
     private int itemRes;
+//    private View itemView;
+
+    private TextView titleView;
 
 
     public ZListDialog(Activity activity) {
         this.activity = activity;
         View view = LayoutInflater.from(this.activity).inflate(layoutRes, null, false);
+        titleView = view.findViewById(R.id.title_view);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         easyRecyclerView = new EasyRecyclerView<>(recyclerView);
         dialog = ZDialog.with(activity).setContentView(view);
+        dialog.setSwipeable(false);
     }
 
     public static ZListDialog with(Activity activity) {
@@ -56,6 +60,11 @@ public class ZListDialog<T> {
         this.itemRes = res;
         return this;
     }
+
+//    public ZListDialog<T> setItemView(View view) {
+//        this.itemView = view;
+//        return this;
+//    }
 
     public ZListDialog<T> setItemList(List<T> list) {
         this.list = list;
@@ -74,6 +83,21 @@ public class ZListDialog<T> {
 
     public ZListDialog<T> setGravity(int gravity) {
         this.gravity = gravity;
+        return this;
+    }
+
+    public ZListDialog<T> setTitle(String title) {
+        titleView.setText(title);
+        return this;
+    }
+
+    public ZListDialog<T> setTitleTextColor(int textColor) {
+        titleView.setTextColor(textColor);
+        return this;
+    }
+
+    public ZListDialog<T> setTitleTextSize(float textSize) {
+        titleView.setTextSize(textSize);
         return this;
     }
 

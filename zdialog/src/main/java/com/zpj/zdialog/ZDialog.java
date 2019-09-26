@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +18,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.labo.kaji.swipeawaydialog.SwipeAwayDialogFragment;
-import com.zpj.dialoglib.R;
 import com.zpj.zdialog.utils.ScreenUtil;
 
 public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
@@ -286,6 +284,98 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
         return this;
     }
 
+
+//    /**
+//     * 设置默认右侧点击按钮
+//     *
+//     * @param onclickListener IDialog.OnClickListener
+//     * @return Builder
+//     */
+//    public ZDialog setPositiveButton(OnClickListener onclickListener) {
+//        return setPositiveButton("确定", onclickListener);
+//    }
+
+//    /**
+//     * 设置默认右侧点击按钮及文字
+//     *
+//     * @param btnStr          右侧文字
+//     * @param onclickListener IDialog.OnClickListener
+//     * @return Builder
+//     */
+//    public ZDialog setPositiveButton(String btnStr, OnClickListener onclickListener) {
+//        this.positiveBtnListener = onclickListener;
+//        this.positiveStr = btnStr;
+//        this.showBtnRight = true;
+//        return this;
+//    }
+
+//    public ZDialog setPositiveButtonTextColor(int color) {
+//        this.positiveStrColor = color;
+//        return this;
+//    }
+//
+//    /**
+//     * 设置左侧按钮
+//     *
+//     * @param onclickListener IDialog.OnClickListener
+//     * @return Builder
+//     */
+//    public ZDialog setNegativeButton(OnClickListener onclickListener) {
+//        return setNegativeButton("取消", onclickListener);
+//    }
+
+//    /**
+//     * 设置左侧文字及按钮
+//     *
+//     * @param btnStr          文字
+//     * @param onclickListener IDialog.OnClickListener
+//     * @return Builder
+//     */
+//    public ZDialog setNegativeButton(String btnStr, OnClickListener onclickListener) {
+//        this.negativeBtnListener = onclickListener;
+//        this.negativeStr = btnStr;
+//        this.showBtnLeft = true;
+//        return this;
+//    }
+
+//    public ZDialog setNegativeButtonTextColor(int color) {
+//        this.negativeStrColor = color;
+//        return this;
+//    }
+
+//    /**
+//     * 设置默认dialog的title
+//     *
+//     * @param title 标题
+//     * @return Builder
+//     */
+//    public ZDialog setTitle(String title) {
+//        this.titleStr = title;
+//        return this;
+//    }
+//
+//    public ZDialog setTitleTextColor(int color) {
+//        this.titleTextColor = color;
+//        return this;
+//    }
+
+//    /**
+//     * 设置默认dialog的内容
+//     *
+//     * @param content 内容
+//     * @return Builder
+//     */
+//    public ZDialog setContent(CharSequence content) {
+//        this.contentStr = content;
+//        return this;
+//    }
+
+//    public ZDialog settextColor(int color) {
+//        this.textColor = color;
+//        return this;
+//    }
+
+
     public ZDialog setAnimatorCreateListener(OnAnimatorCreateListener onAnimatorCreateListener) {
         setOnAnimatorCreateListener(onAnimatorCreateListener);
         return this;
@@ -301,11 +391,12 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
             setDefaultOption();
         }
         if (fragmentManager == null) {
-            if (activity instanceof FragmentActivity) {
-                fragmentManager = ((FragmentActivity)activity).getSupportFragmentManager();
-            } else {
-                throw new RuntimeException("You must call the setFragmentManager!");
-            }
+//            if (activity instanceof AppCompatActivity) {
+//                fragmentManager = ((AppCompatActivity)activity).getSupportFragmentManager();
+//            } else {
+//                throw new RuntimeException("You must call the setFragmentManager!");
+//            }
+            fragmentManager = ((AppCompatActivity)activity).getSupportFragmentManager();
         }
         show(fragmentManager, FTag);
     }
@@ -317,7 +408,6 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
         cancelable = false;
         isCancelableOutside = false;
         gravity = Gravity.CENTER;
-        layoutRes = R.layout.layout_dialog_new;
         dimAmount = 0.5f;
         dialogWidth = (int) (ScreenUtil.getScreenWidth(activity) * 0.85f);
         dialogHeight = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -339,5 +429,4 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
     public <T extends View> T findViewById(int id) {
         return contentView.findViewById(id);
     }
-
 }

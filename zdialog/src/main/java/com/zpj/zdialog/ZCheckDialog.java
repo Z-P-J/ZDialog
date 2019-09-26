@@ -5,11 +5,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.suke.widget.SwitchButton;
+import com.zpj.zdialog.R;
+
 /**
  * @author Z-P-J
  * @date 2019/5/15 23:10
  */
-public class ZAlertDialog {
+public class ZCheckDialog {
+
+    public interface OnClickListener {
+        void onClick(IDialog dialog, boolean isChecked);
+    }
 
     private Activity activity;
 
@@ -17,67 +24,53 @@ public class ZAlertDialog {
 
     private String content;
 
-//    private boolean showCheckedBox;
-//
-//    private boolean isChecked;
+    private boolean isChecked;
 
     private String negativBtnStr = "取消";
 
     private String positiveBtnStr = "确定";
 
-    private IDialog.OnClickListener positiveBtnListener;
-    private IDialog.OnClickListener negativeBtnListener;
+    private OnClickListener positiveBtnListener;
+    private OnClickListener negativeBtnListener;
 
-//    private CheckLayout.OnCheckedChangeListener onCheckedChangeListener;
-
-    private ZAlertDialog(Activity activity) {
+    private ZCheckDialog(Activity activity) {
         this.activity = activity;
     }
 
-    public static ZAlertDialog with(Activity activity) {
-        return new ZAlertDialog(activity);
+    public static ZCheckDialog with(Activity activity) {
+        return new ZCheckDialog(activity);
     }
 
-    public ZAlertDialog setTitle(String title) {
+    public ZCheckDialog setTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public ZAlertDialog setContent(String content) {
+    public ZCheckDialog setContent(String content) {
         this.content = content;
         return this;
     }
 
-//    public ZAlertDialog setShowCheckedBox(boolean showCheckedBox) {
-//        this.showCheckedBox = showCheckedBox;
-//        return this;
-//    }
+    public ZCheckDialog setChecked(boolean checked) {
+        isChecked = checked;
+        return this;
+    }
 
-//    public ZAlertDialog setChecked(boolean checked) {
-//        isChecked = checked;
-//        return this;
-//    }
-
-//    public ZAlertDialog setOnCheckedChangeListener(CheckLayout.OnCheckedChangeListener onCheckedChangeListener) {
-//        this.onCheckedChangeListener = onCheckedChangeListener;
-//        return this;
-//    }
-
-    public ZAlertDialog setPositiveButton(IDialog.OnClickListener onclickListener) {
+    public ZCheckDialog setPositiveButton(OnClickListener onclickListener) {
         return setPositiveButton("确定", onclickListener);
     }
 
-    public ZAlertDialog setPositiveButton(String btnStr, IDialog.OnClickListener onclickListener) {
+    public ZCheckDialog setPositiveButton(String btnStr, OnClickListener onclickListener) {
         this.positiveBtnStr = btnStr;
         this.positiveBtnListener = onclickListener;
         return this;
     }
 
-    public ZAlertDialog setNegativeButton(IDialog.OnClickListener onclickListener) {
+    public ZCheckDialog setNegativeButton(OnClickListener onclickListener) {
         return setNegativeButton("取消", onclickListener);
     }
 
-    public ZAlertDialog setNegativeButton(String btnStr, IDialog.OnClickListener onclickListener) {
+    public ZCheckDialog setNegativeButton(String btnStr, OnClickListener onclickListener) {
         this.negativBtnStr = btnStr;
         this.negativeBtnListener = onclickListener;
         return this;
@@ -85,12 +78,16 @@ public class ZAlertDialog {
 
     public void show() {
         ZDialog.with(activity)
-                .setContentView(R.layout.layout_dialog_alert)
-                .setWindowBackgroundP(0.2f)
+                .setContentView(R.layout.layout_dialog_check)
+                .setWindowBackgroundP(0.4f)
                 .setScreenWidthP(0.9f)
                 .setOnViewCreateListener(new IDialog.OnViewCreateListener() {
                     @Override
                     public void onViewCreate(final IDialog dialog, View view) {
+
+                        final SwitchButton switchButton = dialog.findViewById(R.id.btn_switch);
+                        switchButton.setChecked(isChecked);
+
                         Button cancelBtn = dialog.findViewById(R.id.btn_cancel);
                         Button okBtn = dialog.findViewById(R.id.btn_ok);
                         okBtn.setText(positiveBtnStr);
@@ -99,7 +96,7 @@ public class ZAlertDialog {
                             @Override
                             public void onClick(View v) {
                                 if (positiveBtnListener != null) {
-                                    positiveBtnListener.onClick(dialog);
+                                    positiveBtnListener.onClick(dialog, switchButton.isChecked());
                                 } else {
                                     dialog.dismiss();
                                 }
@@ -109,7 +106,7 @@ public class ZAlertDialog {
                             @Override
                             public void onClick(View v) {
                                 if (negativeBtnListener != null) {
-                                    negativeBtnListener.onClick(dialog);
+                                    negativeBtnListener.onClick(dialog, switchButton.isChecked());
                                 } else {
                                     dialog.dismiss();
                                 }
@@ -120,13 +117,6 @@ public class ZAlertDialog {
                         TextView contentText = dialog.findViewById(R.id.text_content);
                         titleText.setText(title);
                         contentText.setText(content);
-
-//                        if (showCheckedBox) {
-//                            CheckLayout checkLayout = dialog.findViewById(R.id.layout_check);
-//                            checkLayout.setVisibility(View.VISIBLE);
-//                            checkLayout.setChecked(isChecked);
-//                            checkLayout.setOnCheckedChangeListener(onCheckedChangeListener);
-//                        }
                     }
                 })
                 .show();
