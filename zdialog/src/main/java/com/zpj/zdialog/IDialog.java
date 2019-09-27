@@ -7,6 +7,10 @@ public interface IDialog {
 
     void dismiss();
 
+    void hide();
+
+    void show();
+
     void dismissWithoutAnim();
 
     <T extends View> T findViewById(@IdRes int id);
@@ -17,6 +21,10 @@ public interface IDialog {
 
     interface OnClickListener {
         void onClick(IDialog dialog);
+    }
+
+    interface OnDismissListener {
+        void onDismiss(IDialog dialog);
     }
 
     interface OnPositiveButtonClickListener {

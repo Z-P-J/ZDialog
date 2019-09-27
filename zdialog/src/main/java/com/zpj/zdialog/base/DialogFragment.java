@@ -25,6 +25,7 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.DecelerateInterpolator;
 
+import com.zpj.zdialog.IDialog;
 import com.zpj.zdialog.utils.AnimHelper;
 
 /**
@@ -110,7 +111,6 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
 
     public void dismiss() {
         isDismissing = true;
-        initContentOutAnimator(getView());
         if (mContentOutAnimator != null) {
             if (!mContentOutAnimator.isRunning()) {
                 mContentOutAnimator.start();
@@ -119,6 +119,18 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
             dismissInternal(false);
         }
 //        dismissInternal(false);
+    }
+
+    public void hide() {
+        if (this.mDialog != null) {
+            this.mDialog.hide();
+        }
+    }
+
+    public void showHideDialog() {
+        if (this.mDialog != null) {
+            this.mDialog.show();
+        }
     }
 
     public void dismissAllowingStateLoss() {
@@ -261,7 +273,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
             mContentInAnimator = onAnimatorCreateListener.createInAnimator(view);
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mContentInAnimator = AnimHelper.createBottomAlphaInAnim(view);
+                mContentInAnimator = AnimHelper.createZoomInAnim(view);
             } else {
                 mContentInAnimator = AnimHelper.createZoomInAnim(view);
             }
@@ -274,7 +286,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
             mContentOutAnimator = onAnimatorCreateListener.createOutAnimator(getView());
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mContentOutAnimator = AnimHelper.createBottomAlphaOutAnim(view);//createCircularRevealOutAnim
+                mContentOutAnimator = AnimHelper.createZoomOutAnim(view);//createCircularRevealOutAnim
             } else {
                 mContentOutAnimator = AnimHelper.createZoomOutAnim(view);
             }
@@ -329,6 +341,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
 //                animator.setInterpolator(new DecelerateInterpolator());
 //                animator.start();
                 initContentInAnimator(view);
+                initContentOutAnimator(view);
                 if (mContentInAnimator != null) {
                     mContentInAnimator.start();
                 }

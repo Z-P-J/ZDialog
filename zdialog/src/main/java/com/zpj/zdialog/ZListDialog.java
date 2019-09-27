@@ -46,7 +46,9 @@ public class ZListDialog<T> {
         titleView = view.findViewById(R.id.title_view);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         easyRecyclerView = new EasyRecyclerView<>(recyclerView);
-        dialog = ZDialog.with(activity).setContentView(view);
+        dialog = ZDialog.with(activity)
+                .setContentView(view)
+                .setWindowBackgroundP(0.5f);
         dialog.setSwipeable(false);
     }
 
@@ -91,6 +93,11 @@ public class ZListDialog<T> {
         return this;
     }
 
+    public ZListDialog<T> setTitleGravity(int gravity) {
+        titleView.setGravity(gravity);
+        return this;
+    }
+
     public ZListDialog<T> setTitleTextColor(int textColor) {
         titleView.setTextColor(textColor);
         return this;
@@ -112,6 +119,14 @@ public class ZListDialog<T> {
 
     public void dismiss() {
         dialog.dismiss();
+    }
+
+    public void notifyDataSetChanged() {
+        easyRecyclerView.notifyDataSetChanged();
+    }
+
+    public EasyAdapter<T> getAdapter() {
+        return easyRecyclerView.getAdapter();
     }
 
 }

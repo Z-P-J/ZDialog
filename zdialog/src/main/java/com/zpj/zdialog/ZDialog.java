@@ -1,6 +1,7 @@
 package com.zpj.zdialog;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
     //Dialog动画style
     int animRes;
     private OnViewCreateListener onViewCreateListener;
+    private OnDismissListener onDismissListener;
     private static final String FTag = "dialogTag";
 
     public static ZDialog with(Activity activity) {
@@ -273,6 +275,11 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
         return this;
     }
 
+    public ZDialog setOnDismissListener(OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+        return this;
+    }
+
     /**
      * 设置dialog的动画效果
      *
@@ -386,6 +393,10 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
      *
      */
     public void show() {
+        if (getDialog() != null) {
+            getDialog().show();
+            return;
+        }
         if (layoutRes <= 0 && contentView == null) {
             //如果没有设置布局 提供默认设置
             setDefaultOption();
@@ -399,6 +410,14 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
             fragmentManager = ((AppCompatActivity)activity).getSupportFragmentManager();
         }
         show(fragmentManager, FTag);
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (onDismissListener != null) {
+            onDismissListener.onDismiss(this);
+        }
     }
 
     /**

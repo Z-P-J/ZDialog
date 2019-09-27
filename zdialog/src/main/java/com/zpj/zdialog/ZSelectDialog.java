@@ -1,4 +1,4 @@
-package com.zpj.zdialog;//package com.zpj.zdialog;
+//package com.zpj.zdialog;
 //
 //import android.app.Activity;
 //import android.support.annotation.LayoutRes;
@@ -8,7 +8,7 @@ package com.zpj.zdialog;//package com.zpj.zdialog;
 //import android.view.LayoutInflater;
 //import android.view.View;
 //
-//import com.zpj.zdialog.R;
+//import com.zpj.dialoglib.R;
 //
 //import java.util.List;
 //

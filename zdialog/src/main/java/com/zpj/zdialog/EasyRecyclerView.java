@@ -53,4 +53,8 @@ public class EasyRecyclerView<T> {
         easyAdapter.notifyDataSetChanged();
     }
 
+    public EasyAdapter<T> getAdapter() {
+        return easyAdapter;
+    }
+
 }

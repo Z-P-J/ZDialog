@@ -6,13 +6,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.suke.widget.SwitchButton;
-import com.zpj.zdialog.R;
 
 /**
  * @author Z-P-J
  * @date 2019/5/15 23:10
  */
-public class ZCheckDialog {
+public class ZSwitchDialog {
 
     public interface OnClickListener {
         void onClick(IDialog dialog, boolean isChecked);
@@ -33,44 +32,44 @@ public class ZCheckDialog {
     private OnClickListener positiveBtnListener;
     private OnClickListener negativeBtnListener;
 
-    private ZCheckDialog(Activity activity) {
+    private ZSwitchDialog(Activity activity) {
         this.activity = activity;
     }
 
-    public static ZCheckDialog with(Activity activity) {
-        return new ZCheckDialog(activity);
+    public static ZSwitchDialog with(Activity activity) {
+        return new ZSwitchDialog(activity);
     }
 
-    public ZCheckDialog setTitle(String title) {
+    public ZSwitchDialog setTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public ZCheckDialog setContent(String content) {
+    public ZSwitchDialog setContent(String content) {
         this.content = content;
         return this;
     }
 
-    public ZCheckDialog setChecked(boolean checked) {
+    public ZSwitchDialog setChecked(boolean checked) {
         isChecked = checked;
         return this;
     }
 
-    public ZCheckDialog setPositiveButton(OnClickListener onclickListener) {
+    public ZSwitchDialog setPositiveButton(OnClickListener onclickListener) {
         return setPositiveButton("确定", onclickListener);
     }
 
-    public ZCheckDialog setPositiveButton(String btnStr, OnClickListener onclickListener) {
+    public ZSwitchDialog setPositiveButton(String btnStr, OnClickListener onclickListener) {
         this.positiveBtnStr = btnStr;
         this.positiveBtnListener = onclickListener;
         return this;
     }
 
-    public ZCheckDialog setNegativeButton(OnClickListener onclickListener) {
+    public ZSwitchDialog setNegativeButton(OnClickListener onclickListener) {
         return setNegativeButton("取消", onclickListener);
     }
 
-    public ZCheckDialog setNegativeButton(String btnStr, OnClickListener onclickListener) {
+    public ZSwitchDialog setNegativeButton(String btnStr, OnClickListener onclickListener) {
         this.negativBtnStr = btnStr;
         this.negativeBtnListener = onclickListener;
         return this;

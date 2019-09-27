@@ -1,6 +1,7 @@
 package com.zpj.zdialog;
 
 import android.app.Activity;
+import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -43,8 +44,18 @@ public class ZAlertDialog {
         return this;
     }
 
+    public ZAlertDialog setTitle(@StringRes int title) {
+        this.title = activity.getResources().getString(title);
+        return this;
+    }
+
     public ZAlertDialog setContent(String content) {
         this.content = content;
+        return this;
+    }
+
+    public ZAlertDialog setContent(@StringRes int content) {
+        this.content = activity.getResources().getString(content);
         return this;
     }
 
@@ -73,6 +84,10 @@ public class ZAlertDialog {
         return this;
     }
 
+    public ZAlertDialog setPositiveButton(@StringRes int strRes, IDialog.OnClickListener onclickListener) {
+        return setPositiveButton(activity.getResources().getString(strRes), onclickListener);
+    }
+
     public ZAlertDialog setNegativeButton(IDialog.OnClickListener onclickListener) {
         return setNegativeButton("取消", onclickListener);
     }
@@ -81,6 +96,10 @@ public class ZAlertDialog {
         this.negativBtnStr = btnStr;
         this.negativeBtnListener = onclickListener;
         return this;
+    }
+
+    public ZAlertDialog setNegativeButton(@StringRes int strRes, IDialog.OnClickListener onclickListener) {
+        return setNegativeButton(activity.getResources().getString(strRes), onclickListener);
     }
 
     public void show() {
