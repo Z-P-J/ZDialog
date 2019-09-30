@@ -25,7 +25,6 @@ import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.DecelerateInterpolator;
 
-import com.zpj.zdialog.IDialog;
 import com.zpj.zdialog.utils.AnimHelper;
 
 /**

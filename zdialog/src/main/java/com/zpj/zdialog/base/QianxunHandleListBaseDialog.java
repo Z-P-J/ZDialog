@@ -19,7 +19,7 @@ package com.zpj.zdialog.base;//package com.zpj.qianxundialoglib.base;
 // * Created by Renny on 2018/1/11.
 // */
 //
-//public abstract class QianxunHandleListBaseDialog extends AppCompatDialogFragment implements View.OnClickListener, IGroup {
+//public abstract class ZHandleListBaseDialog extends AppCompatDialogFragment implements View.OnClickListener, IGroup {
 //    protected View rootView;
 //    protected Context mContext;
 //

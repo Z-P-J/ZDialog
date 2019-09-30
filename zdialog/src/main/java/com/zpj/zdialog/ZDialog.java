@@ -1,6 +1,7 @@
 package com.zpj.zdialog;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -8,9 +9,9 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.labo.kaji.swipeawaydialog.SwipeAwayDialogFragment;
+import com.zpj.zdialog.base.IDialog;
 import com.zpj.zdialog.utils.ScreenUtil;
 
 public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
@@ -32,16 +34,23 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
     boolean isCancelableOutside = true;
     boolean cancelable = true;
     View contentView;
-    Activity activity;
+    FragmentActivity activity;
     //Dialog动画style
     int animRes;
     private OnViewCreateListener onViewCreateListener;
     private OnDismissListener onDismissListener;
+    private OnDialogStartListener onDialogStartListener;
     private static final String FTag = "dialogTag";
 
-    public static ZDialog with(Activity activity) {
+    public static ZDialog with(Context context) {
         ZDialog dialog = new ZDialog();
-        dialog.setActivity(activity);
+        FragmentActivity activity;
+        if (context instanceof FragmentActivity) {
+            activity = (FragmentActivity) context;
+        } else {
+            activity = ((FragmentActivity) ((ContextWrapper) context).getBaseContext());
+        }
+        dialog.setFragmentActivity(activity);
         return dialog;
     }
 
@@ -143,9 +152,12 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
         params.dimAmount = getDimAmount();
         params.gravity = getGravity();
         window.setAttributes(params);
+        if (onDialogStartListener != null) {
+            onDialogStartListener.onStart();
+        }
     }
 
-    private void setActivity(Activity activity) {
+    private void setFragmentActivity(FragmentActivity activity) {
         this.activity = activity;
     }
 
@@ -173,6 +185,12 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
      */
     public ZDialog setContentView(View dialogView) {
         this.contentView = dialogView;
+        return this;
+    }
+
+
+    public ZDialog setSwipeEnable(boolean swipeable) {
+        setSwipeable(swipeable);
         return this;
     }
 
@@ -277,6 +295,11 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
 
     public ZDialog setOnDismissListener(OnDismissListener onDismissListener) {
         this.onDismissListener = onDismissListener;
+        return this;
+    }
+
+    public ZDialog setOnDialogStartListener(OnDialogStartListener onDialogStartListener) {
+        this.onDialogStartListener = onDialogStartListener;
         return this;
     }
 
@@ -402,12 +425,7 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
             setDefaultOption();
         }
         if (fragmentManager == null) {
-//            if (activity instanceof AppCompatActivity) {
-//                fragmentManager = ((AppCompatActivity)activity).getSupportFragmentManager();
-//            } else {
-//                throw new RuntimeException("You must call the setFragmentManager!");
-//            }
-            fragmentManager = ((AppCompatActivity)activity).getSupportFragmentManager();
+            fragmentManager = activity.getSupportFragmentManager();
         }
         show(fragmentManager, FTag);
     }

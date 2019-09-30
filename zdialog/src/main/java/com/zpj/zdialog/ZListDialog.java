@@ -48,8 +48,8 @@ public class ZListDialog<T> {
         easyRecyclerView = new EasyRecyclerView<>(recyclerView);
         dialog = ZDialog.with(activity)
                 .setContentView(view)
-                .setWindowBackgroundP(0.5f);
-        dialog.setSwipeable(false);
+                .setWindowBackgroundP(0.5f)
+                .setSwipeEnable(false);
     }
 
     public static ZListDialog with(Activity activity) {

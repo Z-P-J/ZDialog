@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.suke.widget.SwitchButton;
+import com.zpj.zdialog.base.IDialog;
 
 /**
  * @author Z-P-J

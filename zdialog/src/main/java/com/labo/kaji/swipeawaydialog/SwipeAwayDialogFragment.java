@@ -20,7 +20,7 @@ public class SwipeAwayDialogFragment extends DialogFragment {
     /**
      * Set whether dialog can be swiped away.
      */
-    public void setSwipeable(boolean swipeable) {
+    protected void setSwipeable(boolean swipeable) {
         mSwipeable = swipeable;
     }
 

@@ -1,4 +1,4 @@
-package com.zpj.zdialog;
+package com.zpj.zdialog.base;
 
 import android.support.annotation.IdRes;
 import android.view.View;
@@ -25,6 +25,10 @@ public interface IDialog {
 
     interface OnDismissListener {
         void onDismiss(IDialog dialog);
+    }
+
+    interface OnDialogStartListener {
+        void onStart();
     }
 
     interface OnPositiveButtonClickListener {

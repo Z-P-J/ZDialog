@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.zpj.zdialog.base.IDialog;
+
 /**
  * @author Z-P-J
  * @date 2019/5/15 23:10

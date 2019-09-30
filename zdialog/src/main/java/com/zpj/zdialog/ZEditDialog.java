@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.zpj.zdialog.base.IDialog;
 import com.zpj.zdialog.utils.KeyboardUtil;
 
 /**
