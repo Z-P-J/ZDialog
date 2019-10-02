@@ -1,8 +1,10 @@
-package com.labo.kaji.swipeawaydialog;
+package com.zpj.zdialog.view;
 
 import android.content.Context;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
+
+import com.zpj.zdialog.base.SwipeDismissTouchListener;
 
 /**
  * @author kakajika

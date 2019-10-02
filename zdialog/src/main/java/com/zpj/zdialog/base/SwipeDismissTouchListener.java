@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.labo.kaji.swipeawaydialog;
+package com.zpj.zdialog.base;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

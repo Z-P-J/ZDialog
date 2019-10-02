@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,10 +20,13 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.animation.DecelerateInterpolator;
 
+import com.zpj.zdialog.R;
+import com.zpj.zdialog.view.SwipeableFrameLayout;
 import com.zpj.zdialog.utils.AnimHelper;
 
 /**
@@ -43,7 +45,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
     private static final String SAVED_SHOWS_DIALOG = "android:showsDialog";
     private static final String SAVED_BACK_STACK_ID = "android:backStackId";
     int mStyle = 0;
-    int mTheme = 0;
+    int mTheme = R.style.DialogTheme;
     boolean mCancelable = true;
     boolean mShowsDialog = true;
     int mBackStackId = -1;
@@ -54,6 +56,11 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
     private boolean isDismissing = false;
 
     private boolean mCanceledOnTouchOutside = true;
+
+    private boolean mSwipeable = true;
+    private boolean mTiltEnabled = true;
+    private boolean mSwipeLayoutGenerated = false;
+    private SwipeDismissTouchListener mListener = null;
 
     private Animator mContentInAnimator;
     private Animator mBackgroundInAnimator;
@@ -271,11 +278,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
         if (onAnimatorCreateListener != null) {
             mContentInAnimator = onAnimatorCreateListener.createInAnimator(view);
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mContentInAnimator = AnimHelper.createZoomInAnim(view);
-            } else {
-                mContentInAnimator = AnimHelper.createZoomInAnim(view);
-            }
+            mContentInAnimator = AnimHelper.createZoomInAnim(view);
         }
         mContentInAnimator.setInterpolator(new DecelerateInterpolator());
     }
@@ -284,11 +287,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
         if (onAnimatorCreateListener != null) {
             mContentOutAnimator = onAnimatorCreateListener.createOutAnimator(getView());
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mContentOutAnimator = AnimHelper.createZoomOutAnim(view);//createCircularRevealOutAnim
-            } else {
-                mContentOutAnimator = AnimHelper.createZoomOutAnim(view);
-            }
+            mContentOutAnimator = AnimHelper.createZoomOutAnim(view);
         }
         mContentOutAnimator.addListener(new Animator.AnimatorListener() {
             @Override
@@ -310,7 +309,6 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
 
     @NonNull
     public OutsideClickDialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-//        Toast.makeText(getContext(), "onCreateDialog", Toast.LENGTH_SHORT).show();
         return new OutsideClickDialog(getContext(), this.getTheme());
     }
 
@@ -333,12 +331,6 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
                 if (view.getViewTreeObserver().isAlive()) {
                     view.getViewTreeObserver().removeOnPreDrawListener(this);
                 }
-//                int x = view.getMeasuredWidth();
-//                int y = view.getMeasuredHeight();
-//                int r = (int) Math.sqrt(Math.pow(x / 2, 2) + Math.pow(y / 2, 2));
-//                Animator animator = ViewAnimationUtils.createCircularReveal(view, x / 2, y / 2, 0, r);
-//                animator.setInterpolator(new DecelerateInterpolator());
-//                animator.start();
                 initContentInAnimator(view);
                 initContentOutAnimator(view);
                 if (mContentInAnimator != null) {
@@ -405,6 +397,35 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
     public void onStart() {
         super.onStart();
         if (this.mDialog != null) {
+            if (!mSwipeLayoutGenerated && getShowsDialog()) {
+                Window window = this.mDialog.getWindow();
+                ViewGroup decorView = (ViewGroup)window.getDecorView();
+                View content = decorView.getChildAt(0);
+                decorView.removeView(content);
+
+                final SwipeableFrameLayout layout = new SwipeableFrameLayout(getActivity());
+                layout.addView(content);
+                decorView.addView(layout);
+
+                mListener = new SwipeDismissTouchListener(decorView, "layout", new SwipeDismissTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(Object token) {
+                        return isCancelable() && mSwipeable;
+                    }
+
+                    @Override
+                    public void onDismiss(View view, boolean toRight, Object token) {
+                        if (!onSwipedAway(toRight)) {
+                            dismissWithoutAnim();
+                        }
+                    }
+                });
+                mListener.setTiltEnabled(mTiltEnabled);
+                layout.setSwipeDismissTouchListener(mListener);
+                layout.setOnTouchListener(mListener);
+                layout.setClickable(true);
+                mSwipeLayoutGenerated = true;
+            }
             this.mViewDestroyed = false;
             this.mDialog.show();
         }
@@ -461,7 +482,45 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
             this.mDialog.dismiss();
             this.mDialog = null;
         }
+    }
 
+    /**
+     * Set whether dialog can be swiped away.
+     */
+    protected void setSwipeable(boolean swipeable) {
+        mSwipeable = swipeable;
+    }
+
+    /**
+     * Get whether dialog can be swiped away.
+     */
+    public boolean isSwipeable() {
+        return mSwipeable;
+    }
+
+    /**
+     * Set whether tilt effect is enabled on swiping.
+     */
+    public void setTiltEnabled(boolean tiltEnabled) {
+        mTiltEnabled = tiltEnabled;
+        if (mListener != null) {
+            mListener.setTiltEnabled(tiltEnabled);
+        }
+    }
+
+    /**
+     * Get whether tilt effect is enabled on swiping.
+     */
+    public boolean isTiltEnabled() {
+        return mTiltEnabled;
+    }
+
+    /**
+     * Called when dialog is swiped away to dismiss.
+     * @return true to prevent dismissing
+     */
+    public boolean onSwipedAway(boolean toRight) {
+        return false;
     }
 
     public interface OnAnimatorCreateListener{

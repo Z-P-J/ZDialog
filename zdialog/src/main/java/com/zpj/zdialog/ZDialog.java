@@ -19,11 +19,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.labo.kaji.swipeawaydialog.SwipeAwayDialogFragment;
+import com.zpj.zdialog.base.DialogFragment;
 import com.zpj.zdialog.base.IDialog;
 import com.zpj.zdialog.utils.ScreenUtil;
 
-public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
+public class ZDialog extends DialogFragment implements IDialog {
 
     FragmentManager fragmentManager;
     int layoutRes;
@@ -35,8 +35,6 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
     boolean cancelable = true;
     View contentView;
     FragmentActivity activity;
-    //Dialog动画style
-    int animRes;
     private OnViewCreateListener onViewCreateListener;
     private OnDismissListener onDismissListener;
     private OnDialogStartListener onDialogStartListener;
@@ -107,10 +105,6 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
         return gravity;
     }
 
-    protected int getAnimRes() {
-        return animRes;
-    }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -131,10 +125,10 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
         }
         //设置背景色透明
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        //设置Dialog动画效果
-        if (getAnimRes() > 0) {
-            window.setWindowAnimations(getAnimRes());
-        }
+//        //设置Dialog动画效果
+//        if (getAnimRes() > 0) {
+//            window.setWindowAnimations(getAnimRes());
+//        }
         WindowManager.LayoutParams params = window.getAttributes();
         //设置Dialog的Width
         if (getDialogWidth() > 0) {
@@ -303,127 +297,20 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
         return this;
     }
 
-    /**
-     * 设置dialog的动画效果
-     *
-     * @param animStyle 动画资源文件
-     * @return Builder
-     */
-    public ZDialog setAnimStyle(int animStyle) {
-        this.animRes = animStyle;
-        return this;
-    }
-
-
-//    /**
-//     * 设置默认右侧点击按钮
-//     *
-//     * @param onclickListener IDialog.OnClickListener
-//     * @return Builder
-//     */
-//    public ZDialog setPositiveButton(OnClickListener onclickListener) {
-//        return setPositiveButton("确定", onclickListener);
-//    }
-
-//    /**
-//     * 设置默认右侧点击按钮及文字
-//     *
-//     * @param btnStr          右侧文字
-//     * @param onclickListener IDialog.OnClickListener
-//     * @return Builder
-//     */
-//    public ZDialog setPositiveButton(String btnStr, OnClickListener onclickListener) {
-//        this.positiveBtnListener = onclickListener;
-//        this.positiveStr = btnStr;
-//        this.showBtnRight = true;
-//        return this;
-//    }
-
-//    public ZDialog setPositiveButtonTextColor(int color) {
-//        this.positiveStrColor = color;
-//        return this;
-//    }
-//
-//    /**
-//     * 设置左侧按钮
-//     *
-//     * @param onclickListener IDialog.OnClickListener
-//     * @return Builder
-//     */
-//    public ZDialog setNegativeButton(OnClickListener onclickListener) {
-//        return setNegativeButton("取消", onclickListener);
-//    }
-
-//    /**
-//     * 设置左侧文字及按钮
-//     *
-//     * @param btnStr          文字
-//     * @param onclickListener IDialog.OnClickListener
-//     * @return Builder
-//     */
-//    public ZDialog setNegativeButton(String btnStr, OnClickListener onclickListener) {
-//        this.negativeBtnListener = onclickListener;
-//        this.negativeStr = btnStr;
-//        this.showBtnLeft = true;
-//        return this;
-//    }
-
-//    public ZDialog setNegativeButtonTextColor(int color) {
-//        this.negativeStrColor = color;
-//        return this;
-//    }
-
-//    /**
-//     * 设置默认dialog的title
-//     *
-//     * @param title 标题
-//     * @return Builder
-//     */
-//    public ZDialog setTitle(String title) {
-//        this.titleStr = title;
-//        return this;
-//    }
-//
-//    public ZDialog setTitleTextColor(int color) {
-//        this.titleTextColor = color;
-//        return this;
-//    }
-
-//    /**
-//     * 设置默认dialog的内容
-//     *
-//     * @param content 内容
-//     * @return Builder
-//     */
-//    public ZDialog setContent(CharSequence content) {
-//        this.contentStr = content;
-//        return this;
-//    }
-
-//    public ZDialog settextColor(int color) {
-//        this.textColor = color;
-//        return this;
-//    }
-
-
     public ZDialog setAnimatorCreateListener(OnAnimatorCreateListener onAnimatorCreateListener) {
         setOnAnimatorCreateListener(onAnimatorCreateListener);
         return this;
     }
 
-    /**
-     * 展示Dialog
-     *
-     */
     public void show() {
         if (getDialog() != null) {
             getDialog().show();
             return;
         }
-        if (layoutRes <= 0 && contentView == null) {
-            //如果没有设置布局 提供默认设置
-            setDefaultOption();
-        }
+//        if (layoutRes <= 0 && contentView == null) {
+//            //如果没有设置布局 提供默认设置
+//            setDefaultOption();
+//        }
         if (fragmentManager == null) {
             fragmentManager = activity.getSupportFragmentManager();
         }
@@ -438,17 +325,17 @@ public class ZDialog extends SwipeAwayDialogFragment implements IDialog {
         }
     }
 
-    /**
-     * 设置默认Dialog的配置
-     */
-    private void setDefaultOption() {
-        cancelable = false;
-        isCancelableOutside = false;
-        gravity = Gravity.CENTER;
-        dimAmount = 0.5f;
-        dialogWidth = (int) (ScreenUtil.getScreenWidth(activity) * 0.85f);
-        dialogHeight = WindowManager.LayoutParams.WRAP_CONTENT;
-    }
+//    /**
+//     * 设置默认Dialog的配置
+//     */
+//    private void setDefaultOption() {
+//        cancelable = false;
+//        isCancelableOutside = false;
+//        gravity = Gravity.CENTER;
+//        dimAmount = 0.5f;
+//        dialogWidth = (int) (ScreenUtil.getScreenWidth(activity) * 0.85f);
+//        dialogHeight = WindowManager.LayoutParams.WRAP_CONTENT;
+//    }
 
     /**
      * 移除之前的dialog

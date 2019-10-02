@@ -306,11 +306,29 @@ public class AnimHelper {
     }
 
     public static Animator createZoomInAnim(@NonNull final View target) {
-        return createZoomAlphaInAnim(target, 0.5F, 0.5F);
+        int centerX = (int) (target.getMeasuredWidth() * 0.5f);
+        int centerY = (int) (target.getMeasuredHeight() * 0.5f);
+        target.setPivotX(centerX);
+        target.setPivotY(centerY);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, "scaleX", 0.618f, 1);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, "scaleY", 0.618f, 1);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(scaleX, scaleY);
+        set.setInterpolator(new DecelerateInterpolator());
+        return set;
     }
 
     public static Animator createZoomOutAnim(@NonNull final View target) {
-        return createZoomAlphaOutAnim(target, 0.5F, 0.5F);
+        int centerX = (int) (target.getMeasuredWidth() * 0.5f);
+        int centerY = (int) (target.getMeasuredHeight() * 0.5f);
+        target.setPivotX(centerX);
+        target.setPivotY(centerY);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, "scaleX", target.getScaleX(), 0f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, "scaleY", target.getScaleY(), 0f);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(scaleX, scaleY);
+        set.setInterpolator(new DecelerateInterpolator());
+        return set;
     }
 
     public static Animator createDelayedZoomInAnim(@NonNull final View target, int centerX, int centerY){

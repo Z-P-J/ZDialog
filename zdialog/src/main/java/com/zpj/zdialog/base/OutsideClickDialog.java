@@ -23,19 +23,19 @@ public class OutsideClickDialog extends Dialog {
     public OutsideClickDialog(@NonNull Context context) {
         super(context);
         setCanceledOnTouchOutside(false);
-//        setCancelable(false);
+        setCancelable(false);
     }
 
     public OutsideClickDialog(@NonNull Context context, int themeResId) {
         super(context, themeResId);
         setCanceledOnTouchOutside(false);
-//        setCancelable(false);
+        setCancelable(false);
     }
 
     protected OutsideClickDialog(@NonNull Context context, boolean cancelable, @Nullable OnCancelListener cancelListener) {
         super(context, cancelable, cancelListener);
         setCanceledOnTouchOutside(false);
-//        setCancelable(false);
+        setCancelable(false);
     }
 
 
