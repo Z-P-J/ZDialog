@@ -30,28 +30,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="退出"
-                android:gravity="center_horizontal"
                 android:textColor="#000000"
                 android:background="#ffffff"
                 android:textStyle="bold"
-                android:textSize="14sp"
-                android:layout_gravity="center_horizontal"
+                android:textSize="16sp"
                 />
 
-            <TextView
-                android:id="@+id/text_content"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
-                android:gravity="center_horizontal"
-                android:lineSpacingExtra="6dp"
-                android:text="我们将在30分钟处理，稍后通知您订单结果！感谢您选择"
-                android:textColor="#525a66"
-                android:textSize="14sp"
-                android:maxLines="3"
-                android:ellipsize="end"
-                />
+                >
+
+                <LinearLayout
+                    android:id="@+id/layout_container"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </ScrollView>
+
+<!--            <TextView-->
+<!--                android:id="@+id/text_content"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="15dp"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:gravity="center_horizontal"-->
+<!--                android:lineSpacingExtra="6dp"-->
+<!--                android:text="我们将在30分钟处理，稍后通知您订单结果！感谢您选择"-->
+<!--                android:textColor="#525a66"-->
+<!--                android:textSize="14sp"-->
+<!--                android:maxLines="3"-->
+<!--                android:ellipsize="end"-->
+<!--                />-->
 
         </LinearLayout>
 

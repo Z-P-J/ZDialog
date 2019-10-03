@@ -25,47 +25,64 @@
             android:orientation="vertical"
             tools:ignore="ContentDescription" >
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_selector"
-                android:orientation="horizontal"
-                >
+                android:text="退出"
+                android:gravity="center_horizontal"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/text_title"
+                    android:id="@+id/text_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@id/btn_switch"
-                    android:text="content"
-                    android:textStyle="bold"
-                    android:textColor="#222222" />
-
-                <com.suke.widget.SwitchButton
-                    android:id="@+id/btn_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:sb_checked_color="#4285f4"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
+                    android:lineSpacingExtra="6dp"
+                    android:text="我们将在30分钟处理，稍后通知您订单结果！感谢您选择"
+                    android:textColor="#525a66"
+                    android:textSize="14sp"
                     />
 
-            </RelativeLayout>
+            </ScrollView>
 
-            <TextView
-                android:id="@+id/text_content"
+            <LinearLayout
+                android:id="@+id/layout_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="15dp"
-                android:lineSpacingExtra="6dp"
-                android:text="我们将在30分钟处理，稍后通知您订单结果！感谢您选择"
-                android:textColor="#525a66"
-                android:textSize="14sp"
-                />
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                >
+
+                <com.zpj.zdialog.view.SmoothCheckBox
+                    android:id="@+id/check_box"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    />
+
+                <TextView
+                    android:id="@+id/check_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="check title"
+                    android:layout_gravity="center_vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="0dp"
+                    />
+
+            </LinearLayout>
 
         </LinearLayout>
 

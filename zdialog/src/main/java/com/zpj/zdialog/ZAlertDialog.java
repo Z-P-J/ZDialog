@@ -2,8 +2,10 @@ package com.zpj.zdialog;
 
 import android.app.Activity;
 import android.support.annotation.StringRes;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zpj.zdialog.base.IDialog;
@@ -16,25 +18,26 @@ public class ZAlertDialog {
 
     private Activity activity;
 
+    private final ZDialog dialog;
+
     private String title;
 
-    private String content;
-
-//    private boolean showCheckedBox;
-//
-//    private boolean isChecked;
+    private View contentView;
 
     private String negativBtnStr = "取消";
 
     private String positiveBtnStr = "确定";
 
+    private boolean isCancelable = true;
+    private boolean isCancelableOutside = true;
+
     private IDialog.OnClickListener positiveBtnListener;
     private IDialog.OnClickListener negativeBtnListener;
-
-//    private CheckLayout.OnCheckedChangeListener onCheckedChangeListener;
+    private IDialog.OnDismissListener onDismissListener;
 
     private ZAlertDialog(Activity activity) {
         this.activity = activity;
+        dialog = ZDialog.with(activity);
     }
 
     public static ZAlertDialog with(Activity activity) {
@@ -51,30 +54,30 @@ public class ZAlertDialog {
         return this;
     }
 
-    public ZAlertDialog setContent(String content) {
-        this.content = content;
+    public ZAlertDialog setContentView(View contentView) {
+        this.contentView = contentView;
         return this;
+    }
+
+    public ZAlertDialog setContent(String content) {
+        TextView textView = (TextView) LayoutInflater.from(activity).inflate(R.layout.content_text_view, null, false);
+        textView.setText(content);
+        return setContentView(textView);
     }
 
     public ZAlertDialog setContent(@StringRes int content) {
-        this.content = activity.getResources().getString(content);
+        return setContent(activity.getResources().getString(content));
+    }
+
+    public ZAlertDialog setCancelable(boolean cancelable) {
+        isCancelable = cancelable;
         return this;
     }
 
-//    public ZAlertDialog setShowCheckedBox(boolean showCheckedBox) {
-//        this.showCheckedBox = showCheckedBox;
-//        return this;
-//    }
-
-//    public ZAlertDialog setChecked(boolean checked) {
-//        isChecked = checked;
-//        return this;
-//    }
-
-//    public ZAlertDialog setOnCheckedChangeListener(CheckLayout.OnCheckedChangeListener onCheckedChangeListener) {
-//        this.onCheckedChangeListener = onCheckedChangeListener;
-//        return this;
-//    }
+    public ZAlertDialog setCancelableOutside(boolean cancelableOutside) {
+        isCancelableOutside = cancelableOutside;
+        return this;
+    }
 
     public ZAlertDialog setPositiveButton(IDialog.OnClickListener onclickListener) {
         return setPositiveButton("确定", onclickListener);
@@ -104,16 +107,26 @@ public class ZAlertDialog {
         return setNegativeButton(activity.getResources().getString(strRes), onclickListener);
     }
 
-    public void show() {
-        ZDialog.with(activity)
-                .setContentView(R.layout.layout_dialog_alert)
+    public ZAlertDialog setOnDismissListener(IDialog.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+        return this;
+    }
+
+    public ZAlertDialog show() {
+        dialog.setContentView(R.layout.layout_dialog_alert)
                 .setWindowBackgroundP(0.2f)
                 .setScreenWidthP(0.9f)
+                .setDialogCancelable(isCancelable)
+                .setCancelableOutSide(isCancelableOutside)
                 .setOnViewCreateListener(new IDialog.OnViewCreateListener() {
                     @Override
                     public void onViewCreate(final IDialog dialog, View view) {
-                        Button cancelBtn = dialog.findViewById(R.id.btn_cancel);
-                        Button okBtn = dialog.findViewById(R.id.btn_ok);
+
+                        LinearLayout container = dialog.getView(R.id.layout_container);
+                        container.addView(contentView);
+
+                        Button cancelBtn = dialog.getView(R.id.btn_cancel);
+                        Button okBtn = dialog.getView(R.id.btn_ok);
                         okBtn.setText(positiveBtnStr);
                         cancelBtn.setText(negativBtnStr);
                         okBtn.setOnClickListener(new View.OnClickListener() {
@@ -137,20 +150,17 @@ public class ZAlertDialog {
                             }
                         });
 
-                        TextView titleText = dialog.findViewById(R.id.text_title);
-                        TextView contentText = dialog.findViewById(R.id.text_content);
+                        TextView titleText = dialog.getView(R.id.text_title);
                         titleText.setText(title);
-                        contentText.setText(content);
-
-//                        if (showCheckedBox) {
-//                            CheckLayout checkLayout = dialog.findViewById(R.id.layout_check);
-//                            checkLayout.setVisibility(View.VISIBLE);
-//                            checkLayout.setChecked(isChecked);
-//                            checkLayout.setOnCheckedChangeListener(onCheckedChangeListener);
-//                        }
                     }
                 })
+                .setOnDismissListener(onDismissListener)
                 .show();
+        return this;
+    }
+
+    public void dismiss() {
+        dialog.dismiss();
     }
 
 }

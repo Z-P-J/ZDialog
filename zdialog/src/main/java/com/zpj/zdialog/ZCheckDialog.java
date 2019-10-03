@@ -3,16 +3,17 @@ package com.zpj.zdialog;
 import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.suke.widget.SwitchButton;
 import com.zpj.zdialog.base.IDialog;
+import com.zpj.zdialog.view.SmoothCheckBox;
 
 /**
  * @author Z-P-J
  * @date 2019/5/15 23:10
  */
-public class ZSwitchDialog {
+public class ZCheckDialog {
 
     public interface OnClickListener {
         void onClick(IDialog dialog, boolean isChecked);
@@ -24,6 +25,8 @@ public class ZSwitchDialog {
 
     private String content;
 
+    private String checkTitle;
+
     private boolean isChecked;
 
     private String negativBtnStr = "取消";
@@ -33,44 +36,49 @@ public class ZSwitchDialog {
     private OnClickListener positiveBtnListener;
     private OnClickListener negativeBtnListener;
 
-    private ZSwitchDialog(Activity activity) {
+    private ZCheckDialog(Activity activity) {
         this.activity = activity;
     }
 
-    public static ZSwitchDialog with(Activity activity) {
-        return new ZSwitchDialog(activity);
+    public static ZCheckDialog with(Activity activity) {
+        return new ZCheckDialog(activity);
     }
 
-    public ZSwitchDialog setTitle(String title) {
+    public ZCheckDialog setTitle(String title) {
         this.title = title;
         return this;
     }
 
-    public ZSwitchDialog setContent(String content) {
+    public ZCheckDialog setContent(String content) {
         this.content = content;
         return this;
     }
 
-    public ZSwitchDialog setChecked(boolean checked) {
+    public ZCheckDialog setCheckTitle(String checkTitle) {
+        this.checkTitle = checkTitle;
+        return this;
+    }
+
+    public ZCheckDialog setChecked(boolean checked) {
         isChecked = checked;
         return this;
     }
 
-    public ZSwitchDialog setPositiveButton(OnClickListener onclickListener) {
+    public ZCheckDialog setPositiveButton(OnClickListener onclickListener) {
         return setPositiveButton("确定", onclickListener);
     }
 
-    public ZSwitchDialog setPositiveButton(String btnStr, OnClickListener onclickListener) {
+    public ZCheckDialog setPositiveButton(String btnStr, OnClickListener onclickListener) {
         this.positiveBtnStr = btnStr;
         this.positiveBtnListener = onclickListener;
         return this;
     }
 
-    public ZSwitchDialog setNegativeButton(OnClickListener onclickListener) {
+    public ZCheckDialog setNegativeButton(OnClickListener onclickListener) {
         return setNegativeButton("取消", onclickListener);
     }
 
-    public ZSwitchDialog setNegativeButton(String btnStr, OnClickListener onclickListener) {
+    public ZCheckDialog setNegativeButton(String btnStr, OnClickListener onclickListener) {
         this.negativBtnStr = btnStr;
         this.negativeBtnListener = onclickListener;
         return this;
@@ -78,15 +86,24 @@ public class ZSwitchDialog {
 
     public void show() {
         ZDialog.with(activity)
-                .setContentView(R.layout.layout_dialog_switch)
+                .setContentView(R.layout.layout_dialog_check)
                 .setWindowBackgroundP(0.4f)
                 .setScreenWidthP(0.9f)
                 .setOnViewCreateListener(new IDialog.OnViewCreateListener() {
                     @Override
                     public void onViewCreate(final IDialog dialog, View view) {
 
-                        final SwitchButton switchButton = dialog.getView(R.id.btn_switch);
-                        switchButton.setChecked(isChecked);
+                        LinearLayout checkLayout = dialog.getView(R.id.layout_check);
+                        final SmoothCheckBox smoothCheckBox = dialog.getView(R.id.check_box);
+                        smoothCheckBox.setChecked(isChecked);
+                        TextView checkTitleView = dialog.getView(R.id.check_title);
+                        checkTitleView.setText(checkTitle);
+                        checkLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                smoothCheckBox.performClick();
+                            }
+                        });
 
                         Button cancelBtn = dialog.getView(R.id.btn_cancel);
                         Button okBtn = dialog.getView(R.id.btn_ok);
@@ -96,7 +113,7 @@ public class ZSwitchDialog {
                             @Override
                             public void onClick(View v) {
                                 if (positiveBtnListener != null) {
-                                    positiveBtnListener.onClick(dialog, switchButton.isChecked());
+                                    positiveBtnListener.onClick(dialog, smoothCheckBox.isChecked());
                                 } else {
                                     dialog.dismiss();
                                 }
@@ -106,7 +123,7 @@ public class ZSwitchDialog {
                             @Override
                             public void onClick(View v) {
                                 if (negativeBtnListener != null) {
-                                    negativeBtnListener.onClick(dialog, switchButton.isChecked());
+                                    negativeBtnListener.onClick(dialog, smoothCheckBox.isChecked());
                                 } else {
                                     dialog.dismiss();
                                 }

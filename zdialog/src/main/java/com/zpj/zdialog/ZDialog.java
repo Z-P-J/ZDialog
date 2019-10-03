@@ -262,6 +262,7 @@ public class ZDialog extends DialogFragment implements IDialog {
      */
     public ZDialog setCancelableOutSide(boolean cancelableOutSide) {
         this.isCancelableOutside = cancelableOutSide;
+        setCanceledOnTouchOutside(cancelableOutSide);
         return this;
     }
 
@@ -350,7 +351,7 @@ public class ZDialog extends DialogFragment implements IDialog {
     }
 
     @Override
-    public <T extends View> T findViewById(int id) {
+    public <T extends View> T getView(int id) {
         return contentView.findViewById(id);
     }
 }

@@ -41,7 +41,7 @@
 //    public ZSelectDialog(Activity activity) {
 //        this.activity = activity;
 //        View view = LayoutInflater.from(this.activity).inflate(layoutRes, null, false);
-//        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+//        RecyclerView recyclerView = view.getView(R.id.recycler_view);
 //        easyRecyclerView = new EasyRecyclerView<>(recyclerView);
 //        dialog = ZDialog.with(activity).setContentView(view);
 //        dialog.setSwipeable(false);

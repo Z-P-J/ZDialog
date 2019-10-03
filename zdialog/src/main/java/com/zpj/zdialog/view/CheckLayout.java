@@ -49,8 +49,8 @@
 //
 //    private void init(Context context, AttributeSet attrs) {
 //        View view = LayoutInflater.from(context).inflate(R.layout.layout_check, this, true);
-//        textView = view.findViewById(R.id.text_view);
-//        checkBox = view.findViewById(R.id.check_box);
+//        textView = view.getView(R.id.text_view);
+//        checkBox = view.getView(R.id.check_box);
 //        if (attrs != null) {
 //            final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CheckLayout);
 //            checked = typedArray.getBoolean(R.styleable.CheckLayout_box_checked, false);

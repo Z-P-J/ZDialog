@@ -59,7 +59,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
 
     private boolean mSwipeable = true;
     private boolean mTiltEnabled = true;
-    private boolean mSwipeLayoutGenerated = false;
+    private boolean isShowed = false;
     private SwipeDismissTouchListener mListener = null;
 
     private Animator mContentInAnimator;
@@ -397,7 +397,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
     public void onStart() {
         super.onStart();
         if (this.mDialog != null) {
-            if (!mSwipeLayoutGenerated && getShowsDialog()) {
+            if (!isShowed && getShowsDialog()) {
                 Window window = this.mDialog.getWindow();
                 ViewGroup decorView = (ViewGroup)window.getDecorView();
                 View content = decorView.getChildAt(0);
@@ -424,7 +424,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
                 layout.setSwipeDismissTouchListener(mListener);
                 layout.setOnTouchListener(mListener);
                 layout.setClickable(true);
-                mSwipeLayoutGenerated = true;
+                isShowed = true;
             }
             this.mViewDestroyed = false;
             this.mDialog.show();

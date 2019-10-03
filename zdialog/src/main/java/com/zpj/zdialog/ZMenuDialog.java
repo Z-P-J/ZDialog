@@ -2,6 +2,7 @@ package com.zpj.zdialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -170,7 +171,13 @@ public class ZMenuDialog {
 //        if (locationY + windowHeight > ScreenUtil.getScreenHeight(dialog.getActivity())) {
 //            locationY -= windowHeight;
 //        }
-        lp.y = locationY;
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+             lp.y = locationY - resources.getDimensionPixelSize(resourceId);
+        } else {
+            lp.y = locationY;
+        }
         lp.dimAmount = 0.0f;
         lp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
         lp.height = ViewGroup.LayoutParams.WRAP_CONTENT;

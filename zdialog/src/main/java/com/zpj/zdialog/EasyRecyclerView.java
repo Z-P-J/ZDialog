@@ -57,4 +57,7 @@ public class EasyRecyclerView<T> {
         return easyAdapter;
     }
 
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
 }

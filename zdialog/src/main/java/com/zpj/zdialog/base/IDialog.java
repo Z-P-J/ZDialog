@@ -5,6 +5,15 @@ import android.view.View;
 
 public interface IDialog {
 
+    /** The identifier for the positive button. */
+    int BUTTON_POSITIVE = -1;
+
+    /** The identifier for the negative button. */
+    int BUTTON_NEGATIVE = -2;
+
+    /** The identifier for the neutral button. */
+    int BUTTON_NEUTRAL = -3;
+
     void dismiss();
 
     void hide();
@@ -13,7 +22,7 @@ public interface IDialog {
 
     void dismissWithoutAnim();
 
-    <T extends View> T findViewById(@IdRes int id);
+    <T extends View> T getView(@IdRes int id);
 
     interface OnViewCreateListener {
         void onViewCreate(IDialog dialog, View view);
