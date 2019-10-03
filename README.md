@@ -18,7 +18,7 @@
 
 # How to use?
 ## 1.ZAlertDialog
-'''java
+"""java
 // 普通提示Dialog
 ZAlertDialog.with(MainActivity.this)
                         .setTitle("确定删除？")
@@ -71,34 +71,34 @@ ZAlertDialog.with(MainActivity.this)
                             }
                         })
                         .show();
-'''
+"""
 
 ## 2.ZEditDialog
-'''java
+"""java
 
-'''
+"""
 
 ## 3.ZCheckDialog
-'''java
+"""java
 
-'''
+"""
 
 ## 4.ZSwitchDialog
-'''java
+"""java
 
-'''
+"""
 
 ## 5.ZListDialog
-'''java
+"""java
 
-'''
+"""
 
 ## 6.ZMenuDialog
-'''java
+"""java
 
-'''
+"""
 
 ## 7.使用ZDialog自定义自己的Dialog
-'''java
+"""java
 
-'''
+"""
