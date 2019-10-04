@@ -28,7 +28,7 @@
 //
 //    private List<T> list;
 //
-//    private EasyAdapter.Callback<T> callback;
+//    private EasyAdapter.IEasy<T> callback;
 //
 //    private RecyclerView.LayoutManager layoutManager;
 //
@@ -63,7 +63,7 @@
 //        return this;
 //    }
 //
-//    public ZSelectDialog<T> setAdapterCallback(EasyAdapter.Callback<T> callback) {
+//    public ZSelectDialog<T> setAdapterCallback(EasyAdapter.IEasy<T> callback) {
 //        this.callback = callback;
 //        return this;
 //    }
@@ -79,7 +79,7 @@
 //    }
 //
 //    public void show() {
-//        easyRecyclerView.setList(list)
+//        easyRecyclerView.setData(list)
 //                .setItemRes(itemRes)
 //                .setLayoutManager(layoutManager == null ? new LinearLayoutManager(activity) : layoutManager)
 //                .setCallback(callback)

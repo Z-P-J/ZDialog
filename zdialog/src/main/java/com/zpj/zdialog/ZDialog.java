@@ -67,7 +67,8 @@ public class ZDialog extends DialogFragment implements IDialog {
             //调用方直接传入view
             view = getContentView();
         } else {
-            throw new RuntimeException("You must call the setContentView");
+            return super.onCreateView(inflater, container, savedInstanceState);
+//            throw new RuntimeException("You must call the setContentView");
         }
         return view;
     }

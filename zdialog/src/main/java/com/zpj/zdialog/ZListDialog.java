@@ -9,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.zpj.recyclerview.EasyAdapter;
+import com.zpj.recyclerview.EasyRecyclerView;
+import com.zpj.recyclerview.IEasy;
+
 import java.util.List;
 
 /**
@@ -27,7 +31,7 @@ public class ZListDialog<T> {
 
     private List<T> list;
 
-    private EasyAdapter.Callback<T> callback;
+    private IEasy.OnBindViewHolderCallback<T> callback;
 
     private RecyclerView.LayoutManager layoutManager;
 
@@ -63,17 +67,12 @@ public class ZListDialog<T> {
         return this;
     }
 
-//    public ZListDialog<T> setItemView(View view) {
-//        this.itemView = view;
-//        return this;
-//    }
-
     public ZListDialog<T> setItemList(List<T> list) {
         this.list = list;
         return this;
     }
 
-    public ZListDialog<T> setAdapterCallback(EasyAdapter.Callback<T> callback) {
+    public ZListDialog<T> setOnBindChildView(IEasy.OnBindViewHolderCallback<T> callback) {
         this.callback = callback;
         return this;
     }
@@ -109,7 +108,7 @@ public class ZListDialog<T> {
     }
 
     public void show() {
-        easyRecyclerView.setList(list)
+        easyRecyclerView.setData(list)
                 .setItemRes(itemRes)
                 .setLayoutManager(layoutManager == null ? new LinearLayoutManager(activity) : layoutManager)
                 .setCallback(callback)
