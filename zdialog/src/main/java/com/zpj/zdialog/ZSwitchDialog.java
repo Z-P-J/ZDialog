@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.suke.widget.SwitchButton;
 import com.zpj.zdialog.base.IDialog;
-import com.zpj.zdialog.view.SwitchButton;
 
 /**
  * @author Z-P-J
@@ -78,7 +78,7 @@ public class ZSwitchDialog {
 
     public void show() {
         ZDialog.with(activity)
-                .setContentView(R.layout.layout_dialog_switch)
+                .setContentView(R.layout.easy_layout_dialog_switch)
                 .setWindowBackgroundP(0.4f)
                 .setScreenWidthP(0.9f)
                 .setOnViewCreateListener(new IDialog.OnViewCreateListener() {

@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/roundlayout"
+    android:background="@drawable/z_background_round"
     >
 
     <TextView
@@ -22,6 +22,7 @@
         />
 
     <View
+        android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginStart="15dp"
@@ -32,6 +33,13 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        />
+
+    <include layout="@layout/easy_layout_buttons"
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
 </LinearLayout>

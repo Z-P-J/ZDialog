@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.zpj.zdialog.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,9 @@ public class EasyRecyclerView<T> {
     private View headerView;
     private View footerView;
 
-    private IEasy.OnBindViewHolderCallback<T> callback;
+    private IEasy.OnBindViewHolderCallback<T> onBindViewHolderCallback;
+    private IEasy.OnCreateViewHolderCallback<T> onCreateViewHolder;
+    private IEasy.OnLoadMoreListener onLoadMoreListener;
 
     public EasyRecyclerView(@NonNull RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
@@ -68,8 +72,23 @@ public class EasyRecyclerView<T> {
         return this;
     }
 
-    public EasyRecyclerView<T> setCallback(IEasy.OnBindViewHolderCallback<T> callback) {
-        this.callback = callback;
+    public EasyRecyclerView<T> onLoadMore(IEasy.OnLoadMoreListener onLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener;
+        return this;
+    }
+
+    public EasyRecyclerView<T> onBindViewHolder(IEasy.OnBindViewHolderCallback<T> callback) {
+        this.onBindViewHolderCallback = callback;
+        return this;
+    }
+
+    public EasyRecyclerView<T> onCreateViewHolder(IEasy.OnCreateViewHolderCallback<T> callback) {
+        this.onCreateViewHolder = callback;
+        return this;
+    }
+
+    public EasyRecyclerView<T> addOnScrollListener(final RecyclerView.OnScrollListener onScrollListener) {
+        recyclerView.addOnScrollListener(onScrollListener);
         return this;
     }
 
@@ -83,19 +102,39 @@ public class EasyRecyclerView<T> {
         if (layoutManager == null) {
             layoutManager = new LinearLayoutManager(recyclerView.getContext());
         }
-        easyAdapter = new EasyAdapter<T>(list, itemRes, callback);
+        easyAdapter = new EasyAdapter<>(list, itemRes, onCreateViewHolder, onBindViewHolderCallback);
         if (headerView != null) {
             easyAdapter.setHeaderView(headerView);
         }
         if (footerView != null) {
             easyAdapter.setFooterView(footerView);
+        } else if (onLoadMoreListener != null) {
+            footerView = LayoutInflater.from(recyclerView.getContext()).inflate(R.layout.easy_base_footer, null, false);
+            easyAdapter.setFooterView(footerView);
         }
+        easyAdapter.setOnLoadMoreListener(onLoadMoreListener);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(easyAdapter);
     }
 
     public void notifyDataSetChanged() {
         easyAdapter.notifyDataSetChanged();
+    }
+
+    public void notifyItemChanged(int position) {
+        easyAdapter.notifyItemChanged(position);
+    }
+
+    public void notifyItemInserted(int position) {
+        easyAdapter.notifyItemInserted(position);
+    }
+
+    public void notifyItemRangeChanged(int start, int itemCount) {
+        easyAdapter.notifyItemRangeChanged(start, itemCount);
+    }
+
+    public void notifyItemRemoved(int position) {
+        easyAdapter.notifyItemRemoved(position);
     }
 
     public EasyAdapter<T> getAdapter() {
@@ -108,5 +147,13 @@ public class EasyRecyclerView<T> {
 
     public RecyclerView.LayoutManager getLayoutManager() {
         return layoutManager;
+    }
+
+    public void post(Runnable runnable) {
+        recyclerView.post(runnable);
+    }
+
+    public List<T> getData() {
+        return list;
     }
 }

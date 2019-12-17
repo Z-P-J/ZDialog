@@ -1,16 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
     >
 
-    <Button
-        android:id="@+id/btn_delete"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="delete"
-        />
+        android:gravity="center"
+        android:orientation="vertical"
+        >
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZAlertDialog简单使用"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:id="@+id/btn_alert_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZAlertDialog高级使用"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:id="@+id/btn_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZEditDialog编辑框简单使用"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:id="@+id/btn_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZCheckDialog带CheckBox的对话框"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:id="@+id/btn_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZSwitchDialog选项对话框"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:id="@+id/btn_list_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZListDialog单选"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:id="@+id/btn_list_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZListDialog多选"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:id="@+id/btn_bottom_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZBottomSheetDialog简单使用"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:id="@+id/btn_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZDialog自定义布局"
+            android:textAllCaps="false"
+            />
+
+
+    </LinearLayout>
+
+</ScrollView>

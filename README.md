@@ -1,7 +1,7 @@
 # ZDialog
  A simple and customizable dialog library.
 
-# ZDialog在本人某个项目中的使用
+## ZDialog在本人某个项目中的使用
 <div>
     <img src="https://github.com/Z-P-J/ZDialog/raw/master/screenshots/screenshots1.jpg" height="330" width="190">
     <img src="https://github.com/Z-P-J/ZDialog/raw/master/screenshots/screenshots2.jpg" height="330" width="190">
@@ -16,8 +16,8 @@
     <img src="https://github.com/Z-P-J/ZDialog/raw/master/screenshots/screenshots11.jpg" height="330" width="190">
 </div>
 
-# How to use?
-## 1.ZAlertDialog
+## How to use?
+### 1.ZAlertDialog
 ```java
 // 普通提示Dialog
 ZAlertDialog.with(MainActivity.this)
@@ -73,32 +73,73 @@ ZAlertDialog.with(MainActivity.this)
                         .show();
 ```
 
-## 2.ZEditDialog
+### 2.ZEditDialog
+```java
+String text = "我的文件.txt";
+ZEditDialog.with(MainActivity.this)
+                        .setTitle("重命名")
+                        .setEditText(text)
+                        .setHint("前请输入文件名")
+                        .setEmptyable(false)
+                        .setSelection(0, text.length() - 4)
+                        .setAutoShowKeyboard(true)
+                        .setOnTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                Log.d("onTextChanged", "s=" + s + " start=" + start + " before=" + before + " count=" + count);
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+                        })
+                        .setPositiveButton(new IDialog.OnPositiveButtonClickListener() {
+                            @Override
+                            public void onClick(IDialog dialog, String text) {
+                                dialog.dismiss();
+                                Toast.makeText(MainActivity.this, "新文件名：" + text, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+```
+
+### 3.ZCheckDialog
 ```java
 
 ```
 
-## 3.ZCheckDialog
+### 4.ZSwitchDialog
 ```java
 
 ```
 
-## 4.ZSwitchDialog
+### 5.ZListDialog
 ```java
 
 ```
 
-## 5.ZListDialog
+### 6.ZMenuDialog
 ```java
 
 ```
 
-## 6.ZMenuDialog
+### 7.ZSelectDialog
 ```java
 
 ```
 
-## 7.使用ZDialog自定义自己的Dialog
+### 8.ZBottomSheettDialog
+```java
+
+```
+
+### 9.使用ZDialog自定义自己的Dialog
 ```java
 
 ```

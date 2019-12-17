@@ -6,7 +6,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.content.DialogInterface.OnDismissListener;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,13 +26,13 @@ import android.view.animation.DecelerateInterpolator;
 
 import com.zpj.zdialog.R;
 import com.zpj.zdialog.view.SwipeableFrameLayout;
-import com.zpj.zdialog.utils.AnimHelper;
+import com.zpj.utils.AnimHelper;
 
 /**
  * @author Z-P-J
  * @date 2019/5/16 21:36
  */
-public class DialogFragment extends Fragment implements OnCancelListener, OnDismissListener {
+public class DialogFragment extends Fragment implements OnCancelListener { // OnDismissListener
     public static final int STYLE_NORMAL = 0;
     public static final int STYLE_NO_TITLE = 1;
     public static final int STYLE_NO_FRAME = 2;
@@ -116,6 +115,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
     }
 
     public void dismiss() {
+        onBeginDismiss();
         isDismissing = true;
         if (mContentOutAnimator != null) {
             if (!mContentOutAnimator.isRunning()) {
@@ -140,10 +140,12 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
     }
 
     public void dismissAllowingStateLoss() {
+        onBeginDismiss();
         this.dismissInternal(true);
     }
 
     public void dismissWithoutAnim() {
+        onBeginDismiss();
         this.dismissInternal(false);
     }
 
@@ -316,11 +318,11 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
     public void onCancel(DialogInterface dialog) {
     }
 
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        if (!this.mViewDestroyed) {
-            this.dismissInternal(true);
-        }
+
+    public void onBeginDismiss() {
+//        if (!this.mViewDestroyed) {
+//            this.dismissInternal(true);
+//        }
     }
 
     @Override
@@ -351,9 +353,13 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
                 @Override
                 public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
                     boolean flag = keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN;
-                    if (flag && mCancelable && !isDismissing) {
-//                        initContentOutAnimator(view);
-                        dismiss();
+                    if (flag) {
+                        if (onBackPressed()) {
+                            return true;
+                        }
+                        if (mCancelable && !isDismissing) {
+                            dismiss();
+                        }
                     }
                     return flag;
                 }
@@ -382,7 +388,7 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
 
             this.mDialog.setCancelable(this.mCancelable);
             this.mDialog.setOnCancelListener(this);
-            this.mDialog.setOnDismissListener(this);
+//            this.mDialog.setOnDismissListener(this);
             if (savedInstanceState != null) {
                 Bundle dialogState = savedInstanceState.getBundle("android:savedDialogState");
                 if (dialogState != null) {
@@ -520,6 +526,10 @@ public class DialogFragment extends Fragment implements OnCancelListener, OnDism
      * @return true to prevent dismissing
      */
     public boolean onSwipedAway(boolean toRight) {
+        return false;
+    }
+
+    protected boolean onBackPressed() {
         return false;
     }
 

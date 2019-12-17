@@ -1,6 +1,6 @@
 package com.zpj.zdialog;
 
-import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -19,7 +19,7 @@ public class ZCheckDialog {
         void onClick(IDialog dialog, boolean isChecked);
     }
 
-    private Activity activity;
+    private Context context;
 
     private String title;
 
@@ -35,13 +35,14 @@ public class ZCheckDialog {
 
     private OnClickListener positiveBtnListener;
     private OnClickListener negativeBtnListener;
+    private SmoothCheckBox.OnCheckedChangeListener onCheckedChangeListener;
 
-    private ZCheckDialog(Activity activity) {
-        this.activity = activity;
+    private ZCheckDialog(Context context) {
+        this.context = context;
     }
 
-    public static ZCheckDialog with(Activity activity) {
-        return new ZCheckDialog(activity);
+    public static ZCheckDialog with(Context context) {
+        return new ZCheckDialog(context);
     }
 
     public ZCheckDialog setTitle(String title) {
@@ -61,6 +62,11 @@ public class ZCheckDialog {
 
     public ZCheckDialog setChecked(boolean checked) {
         isChecked = checked;
+        return this;
+    }
+
+    public ZCheckDialog setOnCheckedChangeListener(SmoothCheckBox.OnCheckedChangeListener onCheckedChangeListener) {
+        this.onCheckedChangeListener = onCheckedChangeListener;
         return this;
     }
 
@@ -85,8 +91,8 @@ public class ZCheckDialog {
     }
 
     public void show() {
-        ZDialog.with(activity)
-                .setContentView(R.layout.layout_dialog_check)
+        ZDialog.with(context)
+                .setContentView(R.layout.easy_layout_dialog_check)
                 .setWindowBackgroundP(0.4f)
                 .setScreenWidthP(0.9f)
                 .setOnViewCreateListener(new IDialog.OnViewCreateListener() {
@@ -96,6 +102,7 @@ public class ZCheckDialog {
                         LinearLayout checkLayout = dialog.getView(R.id.layout_check);
                         final SmoothCheckBox smoothCheckBox = dialog.getView(R.id.check_box);
                         smoothCheckBox.setChecked(isChecked);
+                        smoothCheckBox.setOnCheckedChangeListener(onCheckedChangeListener);
                         TextView checkTitleView = dialog.getView(R.id.check_title);
                         checkTitleView.setText(checkTitle);
                         checkLayout.setOnClickListener(new View.OnClickListener() {

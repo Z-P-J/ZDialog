@@ -1,2 +1,2 @@
-include ':app', ':zdialog'
+include ':app', ':zdialog', ':switchbutton'
 rootProject.name='ZDialog'
