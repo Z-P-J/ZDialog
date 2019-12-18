@@ -184,7 +184,54 @@ ClickHelper.with(btn7)
 
 ### 8.ZBottomSheettDialog
 ```java
-
+ZBottomSheetDialog.with(MainActivity.this)
+                        .setContentView(R.layout.layout_bottom_sheet)
+                        .setOnViewCreateListener((dialog, view) -> {
+                            ImageView icon = dialog.getView(R.id.item_icon);
+                            TextView title = dialog.getView(R.id.item_name);
+                            TextView info = dialog.getView(R.id.item_info);
+                            TextView copy = dialog.getView(R.id.item_copy);
+                            TextView delete = dialog.getView(R.id.item_delete);
+                            TextView rename = dialog.getView(R.id.item_rename);
+                            TextView move = dialog.getView(R.id.item_cut);
+                            title.setText("我的文件.txt");
+                            info.setText("100MB");
+                            copy.setOnClickListener(v1 -> {
+                                dialog.dismiss();
+                                Toast.makeText(this, "Copy", Toast.LENGTH_SHORT).show();
+                            });
+                            delete.setOnClickListener(v12 -> {
+                                dialog.dismiss();
+                                ZAlertDialog.with(MainActivity.this)
+                                        .setTitle("确定删除？")
+                                        .setContent("你将删除文件！")
+                                        .setPositiveButton(dialog1 -> {
+                                            Toast.makeText(MainActivity.this, "删除文件", Toast.LENGTH_SHORT).show();
+                                            dialog1.dismiss();
+                                        })
+                                        .show();
+                            });
+                            rename.setOnClickListener(v12 -> {
+                                dialog.dismiss();
+                                ZEditDialog.with(MainActivity.this)
+                                        .setTitle("重命名")
+                                        .setEditText(title.getText().toString())
+                                        .setHint("请输入新文件名")
+                                        .setEmptyable(false)
+                                        .setSelection(0, title.getText().toString().length() - 4)
+                                        .setAutoShowKeyboard(true)
+                                        .setPositiveButton((dialog12, text1) -> {
+                                            dialog12.dismiss();
+                                            Toast.makeText(MainActivity.this, "新文件名：" + text1, Toast.LENGTH_SHORT).show();
+                                        })
+                                        .show();
+                            });
+                            move.setOnClickListener(v12 -> {
+                                dialog.dismiss();
+                                Toast.makeText(this, "Move", Toast.LENGTH_SHORT).show();
+                            });
+                        })
+                        .show();
 ```
 
 ### 9.使用ZDialog自定义自己的Dialog
