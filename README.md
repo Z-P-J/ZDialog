@@ -111,12 +111,46 @@ ZEditDialog.with(MainActivity.this)
 
 ### 3.ZCheckDialog
 ```java
-
+ZCheckDialog.with(MainActivity.this)
+                        .setTitle("确认删除？")
+                        .setContent("你将删除该下载任务！")
+                        .setChecked(true)
+                        .setCheckTitle("删除本地任务")
+                        .setOnCheckedChangeListener(new SmoothCheckBox.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(SmoothCheckBox checkBox, boolean isChecked) {
+                                Log.d(TAG, "onCheckedChanged isChecked=" + isChecked);
+                            }
+                        })
+                        .setPositiveButton(new ZCheckDialog.OnClickListener() {
+                            @Override
+                            public void onClick(IDialog dialog, boolean isChecked) {
+                                Toast.makeText(MainActivity.this, "checked=" + isChecked, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
 ```
 
 ### 4.ZSwitchDialog
 ```java
-
+ZSwitchDialog.with(MainActivity.this)
+                        .setTitle("应用自启")
+                        .setContent("如果您启用了应用自启，该应用将会在手机开机时自动启动！")
+                        .setChecked(true)
+                        .setPositiveButton(new ZSwitchDialog.OnClickListener() {
+                            @Override
+                            public void onClick(IDialog dialog, boolean isChecked) {
+                                dialog.dismiss();
+                                Toast.makeText(MainActivity.this, "checked=" + isChecked, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton(new ZSwitchDialog.OnClickListener() {
+                            @Override
+                            public void onClick(IDialog dialog, boolean isChecked) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
 ```
 
 ### 5.ZListDialog
@@ -126,7 +160,21 @@ ZEditDialog.with(MainActivity.this)
 
 ### 6.ZMenuDialog
 ```java
-
+ClickHelper.with(btn7)
+                .setOnClickListener(new ClickHelper.OnClickListener() {
+                    @Override
+                    public void onClick(View v, float x, float y) {
+                        ZMenuDialog.with(MainActivity.this)
+                                .addItems("item1", "item2", "item3", "item4", "item5")
+                                .setOnItemClickListener(new ZMenuDialog.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClicked(String title, int position) {
+                                        Toast.makeText(MainActivity.this, title + " clicked", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .show(x, y);
+                    }
+                });
 ```
 
 ### 7.ZSelectDialog

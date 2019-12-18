@@ -70,6 +70,22 @@
             />
 
         <Button
+            android:id="@+id/btn_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZMenuDialog菜单"
+            android:textAllCaps="false"
+            />
+
+        <Button
+            android:id="@+id/btn_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ZSelectDialog选择"
+            android:textAllCaps="false"
+            />
+
+        <Button
             android:id="@+id/btn_bottom_sheet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
