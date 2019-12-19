@@ -34,9 +34,6 @@ public class ZEditDialog {
 
     private boolean emptyable = false;
 
-    private int selectionStart = 0;
-    private int selectionEnd = -1;
-
     private IDialog.OnPositiveButtonClickListener positiveBtnListener;
     private IDialog.OnClickListener negativeBtnListener;
 
@@ -72,12 +69,6 @@ public class ZEditDialog {
 
     public ZEditDialog setEmptyable(boolean emptyable) {
         this.emptyable = emptyable;
-        return this;
-    }
-
-    public ZEditDialog setSelection(int start, int stop) {
-        this.selectionStart = start;
-        this.selectionEnd = stop;
         return this;
     }
 
@@ -121,10 +112,7 @@ public class ZEditDialog {
 
                         editText.setText(text);
                         if (!TextUtils.isEmpty(text)) {
-                            if (selectionEnd <= 0) {
-                                selectionEnd = text.length();
-                            }
-                            editText.setSelection(selectionStart, selectionEnd);
+                            editText.setSelection(0, text.length());
                         }
                         editText.setHint(hint);
                         if (watcher != null) {

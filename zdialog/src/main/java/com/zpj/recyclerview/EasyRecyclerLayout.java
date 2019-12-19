@@ -177,7 +177,7 @@ public class EasyRecyclerLayout<T> extends FrameLayout {
     public EasyRecyclerLayout<T> onBindViewHolder(final IEasy.OnBindViewHolderCallback<T> callback) {
         easyRecyclerView.onBindViewHolder(new IEasy.OnBindViewHolderCallback<T>() {
             @Override
-            public void onBindViewHolder(final EasyViewHolder holder, List<T> list, final int position) {
+            public void onBindViewHolder(final EasyViewHolder holder, List<T> list, final int position, List<Object> payloads) {
                 holder.setPosition(position);
                 final RelativeLayout checkBoxContainer = holder.getView(R.id.easy_recycler_layout_check_box_container);
                 final SmoothCheckBox checkBox = holder.getView(R.id.easy_recycler_layout_check_box);
@@ -228,7 +228,7 @@ public class EasyRecyclerLayout<T> extends FrameLayout {
                     }
                 });
                 if (callback != null) {
-                    callback.onBindViewHolder(holder, list, position);
+                    callback.onBindViewHolder(holder, list, position, payloads);
                 }
             }
         });
@@ -510,6 +510,10 @@ public class EasyRecyclerLayout<T> extends FrameLayout {
 
     public void notifyItemChanged(int position) {
         easyRecyclerView.notifyItemChanged(position);
+    }
+
+    public void notifyItemChanged(int position, Object payload) {
+        easyRecyclerView.notifyItemChanged(position, payload);
     }
 
     public void notifyItemRemoved(int position) {
