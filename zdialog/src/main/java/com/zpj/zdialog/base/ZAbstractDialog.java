@@ -3,16 +3,10 @@ package com.zpj.zdialog.base;
 import android.support.annotation.IdRes;
 import android.view.View;
 
-public interface ZAbstractDialog {
+public abstract class ZAbstractDialog<T extends ZAbstractDialog<T>> extends DialogFragment {
 
-    void dismiss();
+    abstract T show();
 
-    void dismissWithoutAnim();
-
-    void hide();
-
-    ZAbstractDialog show();
-
-    <T extends View> T getView(@IdRes int id);
+    abstract <S extends View> S getView(@IdRes int id);
 
 }

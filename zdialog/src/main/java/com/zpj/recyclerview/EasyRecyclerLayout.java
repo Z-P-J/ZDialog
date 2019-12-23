@@ -252,7 +252,11 @@ public class EasyRecyclerLayout<T> extends FrameLayout {
 
     public void build() {
         easyRecyclerView.build();
-        statusView.showLoading();
+        if (easyRecyclerView.getData().isEmpty()) {
+            statusView.showLoading();
+        } else {
+            statusView.showContent();
+        }
     }
 
     /**
