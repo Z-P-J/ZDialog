@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.zpj.utils.AnimHelper;
+import com.zpj.utils.ScreenUtils;
 import com.zpj.zdialog.base.DialogFragment;
 import com.zpj.zdialog.base.IDialog;
 
@@ -29,7 +30,7 @@ public class ZLoadingDialog implements IDialog {
 
     private CharSequence content;
 
-    private float screenWidthPercent = 0.9f;
+    private float screenWidthPercent = 0.3f;
 
     private boolean isCancelable = false;
     private boolean isCancelableOutside = false;
@@ -113,7 +114,8 @@ public class ZLoadingDialog implements IDialog {
     public ZLoadingDialog show() {
         dialog.setContentView(R.layout.easy_layout_dialog_loading)
                 .setWindowBackgroundP(0.2f)
-                .setScreenWidthP(screenWidthPercent)
+                .setHeight(ScreenUtils.getScreenWidth(context) * screenWidthPercent)
+                .setWidth(ScreenUtils.getScreenWidth(context) * screenWidthPercent)
                 .setDialogCancelable(isCancelable)
                 .setCancelableOutSide(isCancelableOutside)
                 .setSwipeEnable(swipable)
