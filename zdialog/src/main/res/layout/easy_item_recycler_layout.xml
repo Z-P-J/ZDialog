@@ -28,11 +28,11 @@
         android:layout_centerVertical="true"
         >
 
-        <com.zpj.zdialog.view.SmoothCheckBox
+        <com.zpj.dialog.view.SmoothCheckBox
             android:id="@+id/easy_recycler_layout_check_box"
             app:color_checked="#4285f4"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_centerInParent="true"
             />
 
